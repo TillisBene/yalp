@@ -1,0 +1,14 @@
+<FilesMatch "^\.env">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "^(index\.php|robots\.txt|favicon\.ico|sitemap\.xml)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+<FilesMatch ".*">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

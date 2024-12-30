@@ -1,0 +1,22 @@
+{
+    "name": "bene/yalp",
+    "description": "anti sozial, sozial media",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Bene\\Yalp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Till is Bene",
+            "email": "37979079+TilisBene@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "pecee/simple-router": "5.4.1.7",
+        "amphp/amp": "^3.0",
+        "amphp/socket": "^2.3",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

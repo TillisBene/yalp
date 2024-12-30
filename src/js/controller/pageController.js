@@ -1,0 +1,52 @@
+import { html } from '@arrow-js/core';
+import { GlobalState } from '../utils/state';
+
+export const pageController = () => {
+
+    const TITLE_PREFIX = GlobalState.TITLE_PREFIX;
+
+    const setPageTitle = (page) => {
+        document.title = `${TITLE_PREFIX}${page.charAt(0).toUpperCase() + page.slice(1)}`;
+    };
+
+    const changePage = (page) => {
+        if (!GlobalState.allowedPages.includes(page)) return;
+        GlobalState.currentPage = page;
+        window.history.pushState({}, '', `/${page}`);
+        setPageTitle(page);
+    };
+
+    const addPage = (index, pageContent) => {
+        if (!GlobalState.allowedPages.includes(index)) return;
+        GlobalState.pages[index] = pageContent;
+    };
+
+    const createPageLink = (pageIndex, linkText) => {
+        return html`
+            <a href="#" @click="${(e) => {
+                e.preventDefault();
+                changePage(pageIndex);
+            }}">${linkText}</a>
+        `;
+    };
+
+    const renderCurrentPage = () => {
+        setPageTitle(GlobalState.currentPage);
+        return GlobalState.pages[GlobalState.currentPage] || html`<div>Page not found</div>`;
+    };
+
+    // Initialize URL handling
+    window.addEventListener('popstate', () => {
+        const path = window.location.pathname.slice(1) || 'home';
+        if (GlobalState.allowedPages.includes(path)) {
+            changePage(path);
+        }
+    });
+
+    return {
+        changePage,
+        addPage,
+        createPageLink,
+        renderCurrentPage
+    };
+};
