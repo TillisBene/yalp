@@ -12,5 +12,5 @@ export const GlobalState = reactive({
     currentPage: 'home',
     pages: {},
     allowedPages: ['home', 'login', 'register', 'profile', 'settings'],
-    TITLE_PREFIX: 'YALP | ',
+    TITLE_PREFIX: 'YALP SOZIAL | ',
 });
