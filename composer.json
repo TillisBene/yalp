@@ -17,6 +17,7 @@
         "pecee/simple-router": "5.4.1.7",
         "amphp/amp": "^3.0",
         "amphp/socket": "^2.3",
-        "vlucas/phpdotenv": "^5.6"
+        "vlucas/phpdotenv": "^5.6",
+        "catfan/medoo": "^2.1"
     }
 }
