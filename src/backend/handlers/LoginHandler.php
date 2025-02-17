@@ -2,9 +2,6 @@
 
 namespace handlers;
 
-use Pecee\Http\Request;
-use Pecee\SimpleRouter\Handlers\IExceptionHandler;
-use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 use App\Database\Connection;
 
 class LoginHandler

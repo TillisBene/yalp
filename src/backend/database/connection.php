@@ -2,9 +2,10 @@
 
 namespace App\Database;
 
-require 'vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use Medoo\Medoo;
+use Dotenv\Dotenv;
 
 class Connection
 {
@@ -13,12 +14,15 @@ class Connection
     public static function getInstance(): Medoo
     {
         if (self::$instance === null) {
+            $dotenv = Dotenv::createImmutable(__DIR__ . '/../../..');
+            $dotenv->load();
+
             self::$instance = new Medoo([
-                'type' => 'mariadb',
-                'host' => 'localhost',
-                'database' => 'yalp',
-                'username' => 'root',
-                'password' => ''
+                'type' => $_ENV['DB_TYPE'] ?? '',
+                'host' => $_ENV['DB_HOST'] ?? '',
+                'database' => $_ENV['DB_NAME'] ?? '',
+                'username' => $_ENV['DB_USER'] ?? '',
+                'password' => $_ENV['DB_PASS'] ?? ''
             ]);
         }
 
