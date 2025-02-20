@@ -6,6 +6,10 @@ use Pecee\SimpleRouter\SimpleRouter;
 use Pecee\Http\Url;
 use Pecee\Http\Response;
 use Pecee\Http\Request;
+use utils\SessionManager;
+use database\Connection;
+use database\MigrationRunner;
+use utils\Sanitizer;
 
 
 /**
@@ -24,7 +28,8 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
      * 
      */
     SimpleRouter::get('/', function () {
-        return 'Hello world';
+
+        include 'src/backend/templates/index_page.php';
     });
 
     /**
@@ -33,7 +38,17 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
      * 
      */
     SimpleRouter::get('/login', function () {
-        return 'login';
+
+        //SessionManager::createSession();
+
+        include 'src/backend/templates/app/login.php';
+    });
+
+    SimpleRouter::get('/create-account', function () {
+
+        //SessionManager::createSession();
+
+        include 'src/backend/templates/app/create-account.php';
     });
 
     /**
@@ -42,13 +57,12 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
      * Main Page
      * 
      */
-    /* 
-    SimpleRouter::group(['middleware' => \Demo\Middleware\Auth::class], function () {
-        SimpleRouter::get('/app', function() {
+    SimpleRouter::group(['middleware' => Middleware\AuthMiddleware::class], function () {
+
+        SimpleRouter::get('/app', function () {
             return 'login';
         });
     });
-    */
 
     /**
      * 
@@ -73,6 +87,34 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
             $response->json([
                 'message' => 'Welcome to the API',
             ]);
+
+        });
+
+        SimpleRouter::post('/login', function () {
+
+            $request = new Request();
+            $response = new Response($request);
+
+            $email = Sanitizer::email($request->getInputHandler()->value('email', 'email'));
+            $request->getInputHandler()->value('password', 'password');
+
+            $response->json([
+                'message' => 'Login',
+                'data' => $request->getInputHandler()->all(),
+            ]);
+        });
+
+        SimpleRouter::post('/create-account', function () {
+
+            $request = new Request();
+            $response = new Response($request);
+
+            
+
+            $response->json(value: [
+                'message' => 'Login',
+                'data' => $request->getInputHandler()->all(),
+            ]);
         });
 
         /**
@@ -82,12 +124,18 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
          * 
          * 
          */
-        /*SimpleRouter::group(['middleware' => \Demo\Middleware\Auth::class], function () {
-            SimpleRouter::get('/user/{id}', function($id) {
-                return 'admin';
-            });
-        });*/
+        SimpleRouter::group(['middleware' => Middleware\AuthMiddleware::class], function () {
 
+            SimpleRouter::get('/app/{id}', function ($id) {
+                $request = new Request();
+                $response = new Response($request);
+
+                $response->json([
+                    'message' => 'Login',
+                ]);
+            });
+
+        });
     });
 
 });

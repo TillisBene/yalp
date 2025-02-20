@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Database;
+namespace database;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Database;
+namespace database;
 
 use Medoo\Medoo;
 
@@ -21,7 +21,7 @@ class MigrationRunner
         $this->createMigrationsTable();
 
         // Get all migration files
-        $files = glob($this->migrationsPath . '/*.sql');
+        $files = glob("{$this->migrationsPath}/*.sql");
         sort($files);
 
         // Get executed migrations
@@ -36,16 +36,21 @@ class MigrationRunner
                 try {
                     $this->database->query($sql);
                     $this->recordMigration($migrationName);
-                    echo "Executed migration: $migrationName\n";
+                    error_log("INFO: Executed migration: $migrationName");
                 } catch (\Exception $e) {
-                    echo "Error executing migration $migrationName: " . $e->getMessage() . "\n";
+                    error_log("ERROR: Failed executing migration $migrationName: " . $e->getMessage());
+                    throw $e; // Re-throw the exception to handle it at a higher level
                 }
+            } else {
+                error_log("DEBUG: Migration $migrationName already executed");
             }
         }
     }
 
     private function createMigrationsTable(): void
     {
+        $this->database->query("CREATE DATABASE IF NOT EXISTS yalp_db");
+        $this->database->query("USE yalp_db");
         $this->database->query("
             CREATE TABLE IF NOT EXISTS migrations (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,7 +62,7 @@ class MigrationRunner
 
     private function getExecutedMigrations(): array
     {
-        $result = $this->database->select('migrations', 'migration');
+        $result = $this->database->select('migrations', ['migration']);
         return array_column($result, 'migration');
     }
 

@@ -2,7 +2,7 @@
 
 namespace handlers;
 
-use App\Database\Connection;
+use database\Connection;
 
 class LoginHandler
 {
