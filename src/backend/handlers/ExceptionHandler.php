@@ -5,21 +5,22 @@ namespace handlers;
 use Pecee\Http\Request;
 use Pecee\SimpleRouter\Handlers\IExceptionHandler;
 use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
+use Pecee\Http\Response;
 
 class ExceptionHandler implements IExceptionHandler
 {
 	public function handleError(Request $request, \Exception $error): void
 	{
+		$request = new Request();
+        $response = new Response($request);
 
 		/* You can use the exception handler to format errors depending on the request and type. */
 
 		if ($request->getUrl()->contains('/api')) {
-
-			response()->json([
+			$response->json([
 				'error' => $error->getMessage(),
 				'code'  => $error->getCode(),
 			]);
-
 		}
 
 		/* The router will throw the NotFoundHttpException on 404 */
@@ -30,7 +31,7 @@ class ExceptionHandler implements IExceptionHandler
 			return;
 			
 		}
-		
+
 		/* Other error 
 		if($error instanceof MyCustomException) {
 

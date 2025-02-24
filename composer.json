@@ -4,7 +4,10 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Bene\\Yalp\\": "src/"
+            "Yalp\\": "src/",
+            "utils\\": "src/backend/utils/",
+            "Middleware\\": "src/backend/Middleware/",
+            "handlers\\": "src/backend/handlers/"
         }
     },
     "authors": [

@@ -9,6 +9,6 @@
 <body>
     <h1>Login</h1>
     <div id="app"></div>
-    <script src="dist/js/login.js"></script>
+    <script src="dist/login.js"></script>
 </body>
 </html>
