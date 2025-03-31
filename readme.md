@@ -16,14 +16,6 @@ Yalp, the unusual social media app.
 
 Yalp is an innovative social media application designed to provide a unique user experience. Unlike traditional social media platforms, Yalp focuses on unconventional features and user interactions.
 
-## Features
-
-- Unique user profiles
-- Customizable themes
-- Real-time messaging
-- Media sharing
-- Interactive user feeds
-
 ## Installation
 
 To get started with Yalp, follow these steps:
