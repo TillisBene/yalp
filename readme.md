@@ -1,6 +1,3 @@
-Sure! Here's a basic README.md template for your repository `yalp, the unusual social media app.`
-
-```markdown
 # Yalp
 
 Yalp, the unusual social media app.
@@ -98,6 +95,3 @@ We welcome contributions from the community. To contribute, please follow these 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-```
-
-Feel free to customize it further to fit your project's specifics!
