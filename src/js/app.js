@@ -10,19 +10,19 @@ const controller = pageController();
 controller.addPage('home', html`
     <div>
         <h1>Home Page</h1>
-        ${controller.createPageLink('login', 'Go to Login')}
-        <!-- Or use direct changePage -->
-        <button @click=${() => controller.changePage('login')}>Login</button>
     </div>
 `);
 
-controller.addPage('login', html`
+controller.addPage('settings', html`
     <div>
-        <h1>Login Page</h1>
-        ${controller.createPageLink('home', 'Back to Home')}
+        <h1>Settings</h1>
     </div>
 `);
 
 // Mount app
-const template = html`${controller.renderCurrentPage}`;
+const template = html`
+    ${controller.renderCurrentPage}
+    ${controller.createPageLink('settings', 'settings')}
+    ${controller.createPageLink('home', 'home')}
+`;
 template(app);

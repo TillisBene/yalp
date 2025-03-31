@@ -12,35 +12,37 @@
             `):H`<div style="display: none" data-empty-message>No messages</div>`}
     </div>
 `;function lr(e){let t=document.cookie.split("; ").find(r=>r.startsWith(e+"="));return t?t.split("=")[1]:null}var Le=he({user:{id:null,username:null,email:null,profilePicture:null},APItoken:null,authToken:null,csrfToken:lr("CSRF-TOKEN"),currentPage:"home",pages:{},allowedPages:["home","login","register","profile","settings"],TITLE_PREFIX:"YALP SOZIAL | "});var Vn=document.getElementById("app"),Jn=H`
-    <div>
-        <h1>Create Account</h1>
-        ${ur()}
-        <form @submit="${Wn}">
-            <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                required
-            />
-            <input type="email" name="email" placeholder="Email" required />
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-            />
-            <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                required
-            />
-            <button type="submit">Create Account</button>
-            <input
-                type="hidden"
-                name="csrfToken"
-                value="${Le.csrfToken}"
-            />
-        </form>
-    </div>
-`;function Wn(e){return P(this,null,function*(){var n,o,i;e.preventDefault();let t=new FormData(e.target),r=Object.fromEntries(t);if(console.log("Form data:",r),console.log("CSRF Token:",Le.csrfToken),r.password!==r.confirmPassword){fe("Passwords do not match",G.ERROR,5e3);return}try{let s=yield ke.post("/api/create-account",r,{headers:{"X-CSRF-TOKEN":Le.csrfToken}});console.log("Server response:",s.data),s.data.type==="success"?(fe("Account created successfully! Redirecting to login page...",G.SUCCESS,5e3),s.data.redirect&&setTimeout(()=>{window.location.href=s.data.redirect},5e3)):fe(s.data.message||"Error creating account",G.ERROR,5e3)}catch(s){console.error("Error creating account:",((n=s.response)==null?void 0:n.data)||s.message),fe(((i=(o=s.response)==null?void 0:o.data)==null?void 0:i.message)||"Error creating account",G.ERROR,5e3)}})}Jn(Vn);})();
+    <section id="main-content">
+        <div class="container">
+            <h1>Create Account</h1>
+            ${ur()}
+            <form @submit="${Wn}">
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    required
+                />
+                <input type="email" name="email" placeholder="Email" required />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                />
+                <input
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Confirm Password"
+                    required
+                />
+                <button type="submit">Create Account</button>
+                <input
+                    type="hidden"
+                    name="csrfToken"
+                    value="${Le.csrfToken}"
+                />
+            </form>
+        </div>
+    </section>
+`;function Wn(e){return P(this,null,function*(){var n,o,i;e.preventDefault();let t=new FormData(e.target),r=Object.fromEntries(t);if(console.log("Form data:",r),console.log("CSRF Token:",Le.csrfToken),r.password!==r.confirmPassword){fe("Passwords do not match",G.ERROR,5e3);return}try{let s=yield ke.post("/api/create-account",r,{headers:{"X-CSRF-TOKEN":Le.csrfToken}});console.log("Server response:",s.data),s.data.type==="success"?(fe("Account created successfully! Redirecting to login page...",G.SUCCESS,5e3),s.data.redirect&&setTimeout(()=>{window.location.href=s.data.redirect},1e3)):fe(s.data.message||"Error creating account",G.ERROR,5e3)}catch(s){console.error("Error creating account:",((n=s.response)==null?void 0:n.data)||s.message),fe(((i=(o=s.response)==null?void 0:o.data)==null?void 0:i.message)||"Error creating account",G.ERROR,5e3)}})}Jn(Vn);})();

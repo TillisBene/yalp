@@ -6,45 +6,52 @@ use Pecee\Http\Request;
 use Pecee\SimpleRouter\Handlers\IExceptionHandler;
 use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 use Pecee\Http\Response;
+use PDOException;
 
 class ExceptionHandler implements IExceptionHandler
 {
-	public function handleError(Request $request, \Exception $error): void
-	{
-		$request = new Request();
+    public function handleError(Request $request, \Exception $error): void
+    {
+        // Add debugging
+        error_log('Exception handler triggered for path: ' . $request->getUrl()->getPath());
+        error_log('Exception type: ' . get_class($error));
+        error_log('Exception message: ' . $error->getMessage());
+        
         $response = new Response($request);
 
-		/* You can use the exception handler to format errors depending on the request and type. */
+        /* You can use the exception handler to format errors depending on the request and type. */
+        if ($request->getUrl()->contains('/api')) {
+            $response->json([
+                'error' => $error->getMessage(),
+                'code'  => $error->getCode(),
+            ]);
+            return;
+        }
+        
+        if (!$request->getUrl()->contains('/api') && 
+            !in_array($request->getUrl()->getPath(), ['/', '/login', '/register', '/create-account'])) {
+            $response->redirect('/login');
+            return;
+        }
 
-		if ($request->getUrl()->contains('/api')) {
-			$response->json([
-				'error' => $error->getMessage(),
-				'code'  => $error->getCode(),
-			]);
-		}
+        if ($error instanceof PDOException){
+            $response->json([
+                'error' => 'DB - Error - '. $error,
+                'code' => 404
+            ]);
+            return;
+        }
 
-		/* The router will throw the NotFoundHttpException on 404 */
-		if($error instanceof NotFoundHttpException) {
+        /* Other handlers */
+        if ($error instanceof NotFoundHttpException) {
+            // Render custom 404-page
+            $response->json([
+                'error' => 'Page not found',
+                'code' => 404
+            ]);
+            return;
+        }
 
-			// Render custom 404-page
-			$request->setRewriteCallback('Demo\Controllers\PageController@notFound');
-			return;
-			
-		}
-
-		/* Other error 
-		if($error instanceof MyCustomException) {
-
-			$request->setRewriteRoute(
-				// Add new route based on current url (minus query-string) and add custom parameters.
-				(new RouteUrl(url(null, null, []), 'PageController@error'))->setParameters(['exception' => $error])
-			);
-			return;
-			
-		}*/
-
-		throw $error;
-
-	}
-
+        throw $error;
+    }
 }

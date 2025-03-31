@@ -10,37 +10,39 @@ import { GlobalState } from "./utils/state.js";
 const app = document.getElementById("app");
 
 const createAccount = html`
-    <div>
-        <h1>Create Account</h1>
-        ${messageComponent()}
-        <form @submit="${handleSubmit}">
-            <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                required
-            />
-            <input type="email" name="email" placeholder="Email" required />
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-            />
-            <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                required
-            />
-            <button type="submit">Create Account</button>
-            <input
-                type="hidden"
-                name="csrfToken"
-                value="${GlobalState.csrfToken}"
-            />
-        </form>
-    </div>
+    <section id="main-content">
+        <div class="container">
+            <h1>Create Account</h1>
+            ${messageComponent()}
+            <form @submit="${handleSubmit}">
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    required
+                />
+                <input type="email" name="email" placeholder="Email" required />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                />
+                <input
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Confirm Password"
+                    required
+                />
+                <button type="submit">Create Account</button>
+                <input
+                    type="hidden"
+                    name="csrfToken"
+                    value="${GlobalState.csrfToken}"
+                />
+            </form>
+        </div>
+    </section>
 `;
 
 //TODO: Multilanguage support
@@ -75,7 +77,7 @@ async function handleSubmit(e) {
             if (response.data.redirect) {
                 setTimeout(() => {
                     window.location.href = response.data.redirect;
-                }, 5000);
+                }, 1000);
             }
         } else {
             addMessage(

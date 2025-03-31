@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="dist/css/style.css">
 </head>
 <body>
-    <h1>Login</h1>
     <div id="app"></div>
     <script src="dist/login.js"></script>
 </body>

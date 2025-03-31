@@ -10,9 +10,28 @@
         password_hash VARCHAR(255) NOT NULL,
         login_code VARCHAR(255),
         first_login BOOLEAN DEFAULT TRUE,
+        current_session VARCHAR(255),
+        is_active BOOLEAN DEFAULT TRUE,
+        is_verified BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         vector_coordinates JSON -- Store user vector data for algorithm
+    );
+
+    -- Create Devices Table
+    CREATE TABLE devices (
+        device_id INT PRIMARY KEY AUTO_INCREMENT,
+        user_id INT,
+        device_name VARCHAR(100),
+        device_type VARCHAR(50),
+        last_ip VARCHAR(45),
+        last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        is_active BOOLEAN DEFAULT TRUE,
+        user_agent VARCHAR(255),
+        refresh_token VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(user_id)
     );
 
     -- Create Interests Table

@@ -9,7 +9,8 @@
     "build": "esbuild src/js/app.js src/css/style.css --bundle --minify --outdir=dist --platform=browser --target=es2015",
     "build:login": "esbuild src/js/login.js --bundle --minify --outdir=dist --platform=browser --target=es2015",
     "build:create": "esbuild src/js/create-account.js --bundle --minify --outdir=dist --platform=browser --target=es2015",
-    "build:all": "npm run build && npm run build:login && npm run build:create"
+    "build:all": "npm run build && npm run build:login && npm run build:create",
+    "build:css": "esbuild src/css/style.css --bundle --minify --outdir=dist/css"
   },
   "author": "",
   "license": "ISC",
