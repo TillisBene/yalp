@@ -17,6 +17,8 @@ use handlers\MailHandler;
 use utils\InputValidator;
 use utils\GetDevice as Device;
 
+SessionManager::createSession();
+
 /**
  * 
  * 
@@ -71,7 +73,7 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
      * 
      */
     SimpleRouter::get('/create-account', function () {
-        SessionManager::createSession();
+        //SessionManager::createSession();
 
         include 'src/backend/templates/app/create-account.php';
     });
@@ -90,6 +92,8 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
          * 
          */
         SimpleRouter::get('/app', function () {
+            //SessionManager::createSession();
+
             require_once 'src/backend/templates/app/app.php';
         });
     });
@@ -115,7 +119,7 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
             $request = new Request();
             $response = new Response($request);
 
-            SessionManager::createSession();
+            
 
             $response->json([
                 'message' => 'Welcome to the API',
@@ -138,7 +142,7 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
             $request = new Request();
             $response = new Response($request);
 
-            SessionManager::createSession();
+            //SessionManager::createSession();
 
             $data = [
                 'email' => utils\Sanitizer::email($request->getInputHandler()->value('email', 'email')),
@@ -256,7 +260,11 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
                         "Time: " . $deviceInfo->getLastLogin() . "<br><br>" .
                         "If this wasn't you, please secure your account immediately.";
 
-                    $mailHandler->sendMail($user["email"], 'YALP | New Device Login', $emailTemplate);
+                    try {
+                        $mailHandler->sendMail($user["email"], 'YALP | New Device Login', $emailTemplate);
+                    } catch (\Throwable $th) {
+                        error_log('Email Error: '.$th);
+                    }
                 } else {
                     $database->update("devices", [
                         "last_login" => $deviceInfo->getLastLogin(),
@@ -296,7 +304,7 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
             $request = new Request();
             $response = new Response($request);
 
-            SessionManager::createSession();
+            //SessionManager::createSession();
 
             // Collect all input data
             $data = [
@@ -411,7 +419,7 @@ SimpleRouter::group(['exceptionHandler' => \handlers\ExceptionHandler::class], f
          */
         SimpleRouter::post('/verify-email/{code}', function ($code) {
             
-            SessionManager::createSession();
+            //SessionManager::createSession();
 
             $request = new Request();
             $response = new Response($request);

@@ -31,36 +31,6 @@ final class SessionManager
             session_destroy();
         }
     }
-    
-    public static function isAuthenticated(): bool
-    {
-        error_log('SESSION CHECK: ' . session_id());
-        error_log('SESSION DATA: ' . print_r($_SESSION, true));
-        
-        if(!isset($_SESSION)) {
-            error_log('Session not set');
-            return false;
-        }
-        
-        $userId = self::getFromSession('user_id');
-        error_log('USER ID FROM SESSION: ' . ($userId ?? 'null'));
-        
-        $dbSession = Connection::getInstance()->get('users', 'current_session', [
-            'user_id' => $userId
-        ]);
-        
-        error_log('DB SESSION: ' . ($dbSession ?? 'null'));
-        error_log('CURRENT SESSION: ' . session_id());
-        
-        if (!isset($dbSession) || $dbSession !== session_id()) {
-            error_log('Session mismatch or not found');
-            self::closeSession();
-            return false;
-        }
-    
-        return isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true;
-    }
-
 
     public static function addToSession(array $data): void
     {
@@ -180,6 +150,35 @@ final class SessionManager
             return false;
         }
         return session_status() === PHP_SESSION_ACTIVE;
+    }
+
+    public static function isAuthenticated(): bool
+    {
+        //error_log('SESSION CHECK: ' . session_id());
+        //error_log('SESSION DATA: ' . print_r($_SESSION, true));
+        
+        if(!isset($_SESSION)) {
+            error_log('Session not set');
+            return false;
+        }
+        
+        $userId = self::getFromSession('user_id');
+        error_log('USER ID FROM SESSION: ' . ($userId ?? 'null'));
+        
+        //$dbSession = Connection::getInstance()->get('users', 'current_session', [
+        //    'user_id' => $userId
+        //]);
+        
+        error_log('DB SESSION: ' . ($dbSession ?? 'null'));
+        error_log('CURRENT SESSION: ' . session_id());
+        
+        //if (!isset($dbSession) || $dbSession !== session_id()) {
+        //    error_log('Session mismatch or not found');
+        //    self::closeSession();
+        //    return false;
+        //}
+    
+        return isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true;
     }
 }
 
